@@ -1,3 +1,13 @@
+# Local Reverse Geocoder - tkafka fork
+
+This is a fork of tomayac's awesome [local-reverse-geocoder](https://github.com/tomayac/local-reverse-geocoder), which replaces [problematic](https://github.com/tomayac/local-reverse-geocoder/issues/39) `node-unzip-2` for `unzip-stream`.
+
+This way, we unzip a single required file directly from stream, with no temporary files on disk (and problems with synchronization issues writing and reading them).
+
+I also refactored a data downloading code to remove duplicate code paths, and set it's default folder to `/tmp/geonames`. I believe this is better location than storing the data inside `node_modules`.
+
+Built-in server: run `npm run start`.
+
 # Local Reverse Geocoder
 
 This library provides a local reverse geocoder for Node.js that is based on
