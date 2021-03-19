@@ -51,12 +51,28 @@ var port = Number(process.env.PORT || 3000);
 app.listen(port, function () {
   console.log('Local reverse geocoder listening on port ' + port);
   console.log('Initializing Geocoder...');
-  var load = { admin1: true, admin2: true, admin3And4: false, alternateNames: false }
-  geocoder.init({
-    dumpDirectory: '/tmp/geonames',
-    load: load,
-	}, function () {
-    console.log('Geocoder initialized with ' + JSON.stringify(load) + ' and ready.');
-    isGeocodeInitialized = true;
-  });
+
+  // test: try everyting
+  // var load = { admin1: true, admin2: true, admin3And4: true, alternateNames: true }
+
+  // reasonable defaults for 'closest city'
+  var load = {
+    admin1: true,
+    admin2: true,
+    admin3And4: false,
+    alternateNames: false,
+  };
+
+  geocoder.init(
+    {
+      dumpDirectory: '/tmp/geonames',
+      load: load,
+    },
+    function () {
+      console.log(
+        'Geocoder initialized with ' + JSON.stringify(load) + ' and ready.'
+      );
+      isGeocodeInitialized = true;
+    }
+  );
 });
