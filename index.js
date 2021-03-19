@@ -462,18 +462,37 @@ var geocoder = {
         GEONAMES_DUMP + '/cities/' + CITIES_FILE + '_' + now + '.zip';
       try {
         fs.writeFileSync(zipFilename, body);
-        fs.createReadStream(zipFilename)
-          .pipe(unzip.Extract({ path: GEONAMES_DUMP + '/cities' }))
+        var extractStream = new unzip.Extract({ path: GEONAMES_DUMP + '/cities' })
+        fs.createReadStream(zipFilename).pipe(extractStream)
+        extractStream
+          /*
+          .on('error', function (err) {
+            if (err.code === 'ENOENT') {
+              // ignore - fstream writer runs stat/lstat after extract is finished (and .close sent), and it crashes, because we have already used and moved/deleted it's file
+            } else {
+              throw err
+            }
+          })
+          */
+          .on('finish', function () {
+            debug('Extract of cities data finish');
+          })
           .on('close', function () {
-            fs.renameSync(filename, timestampedFilename);
+            debug('Extract of cities data closed');
+            // fs.renameSync(filename, timestampedFilename);
+            // don't rename, but copy, so that fstat is happy touching the extracted file
+            fs.copyFileSync(filename, timestampedFilename);
             fs.unlinkSync(
               GEONAMES_DUMP + '/cities/' + CITIES_FILE + '_' + now + '.zip'
             );
             debug('Unzipped GeoNames cities data');
             // Housekeeping, remove old files
-            var currentFileName = path.basename(timestampedFilename);
+            var timestampedFilenameBasename = path.basename(timestampedFilename);
+            var filenameBasename = path.basename(filename);
             fs.readdirSync(GEONAMES_DUMP + '/cities').forEach(function (file) {
-              if (file !== currentFileName) {
+              if (file !== timestampedFilenameBasename && file !== filenameBasename) {
+                // we will keep the extracted file, because fstream insist on touching it, sigh
+                // see https://github.com/tomayac/local-reverse-geocoder/issues/39
                 fs.unlinkSync(GEONAMES_DUMP + '/cities/' + file);
               }
             });
