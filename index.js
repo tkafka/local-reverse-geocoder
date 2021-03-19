@@ -154,6 +154,10 @@ var geocoder = {
       return callback(null, filename);
     }
 
+    if (!fs.existsSync(outputFileFolderWithoutSlash)) {
+      fs.mkdirSync(outputFileFolderWithoutSlash, { recursive: true });
+    }
+
     const outputFileName = timestampedBasename;
 
     downloadMethodBoundToThis(
