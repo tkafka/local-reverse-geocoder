@@ -1,6 +1,6 @@
 {
   "name": "local-reverse-geocoder-2",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "Implements a local reverse geocoder based on GeoNames, fixed fork of local-reverse-geocoder.",
   "main": "index.js",
   "types": "index.d.ts",
