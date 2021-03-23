@@ -1,4 +1,8 @@
-# Local Reverse Geocoder - tkafka fork ([local-reverse-geocoder-2](https://www.npmjs.com/package/local-reverse-geocoder-2) on npm)
+# ⚠️ Note: All fixes were merged back into ([local-reverse-geocoder](https://www.npmjs.com/package/local-reverse-geocoder) - please use the original package.
+
+`local-reverse-geocoder-2` was marked as deprecated.
+
+# Local Reverse Geocoder - tkafka fork
 
 This is a fork of tomayac's awesome [local-reverse-geocoder](https://github.com/tomayac/local-reverse-geocoder), which replaces [problematic](https://github.com/tomayac/local-reverse-geocoder/issues/39) `node-unzip-2` for `unzip-stream`.
 
